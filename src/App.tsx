@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState, useCallback } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import BarComponent from './components/Bar.component'
 import ListContainer from './containers/List.container'
@@ -12,12 +12,9 @@ export const App: FC = () => {
     setAuth(false)
   }
 
-  const signIn = async () => {
+  const signIn = useCallback(async () => {
     if (!auth) {
-      const authenticate = async () => {
-        return LocalAuthentication.authenticateAsync()
-      }
-
+      const authenticate = async () => LocalAuthentication.authenticateAsync()
       await authenticate().then(async result => {
         if (result.success) {
           await AsyncStorage.setItem('auth', '1')
@@ -27,7 +24,7 @@ export const App: FC = () => {
         }
       })
     }
-  }
+  }, [auth])
 
   useEffect(() => {
     const getAuthItem = async () => AsyncStorage.getItem('auth')
@@ -35,8 +32,6 @@ export const App: FC = () => {
       setAuth(Boolean(Number(result)))
     })
   }, [])
-
-  console.log('App', auth)
 
   return (
     <>
