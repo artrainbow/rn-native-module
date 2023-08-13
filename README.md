@@ -5,7 +5,7 @@
 
 # Installation
 
-```agsl
+```
 yarn global add npx
 ```
 

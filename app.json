@@ -1,4 +1,18 @@
 {
-  "name": "RNNativeModules",
-  "displayName": "RN TODO List"
+  "expo": {
+    "name": "rn-todo-list",
+    "slug": "rn-todo-list",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "plugins": [
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
+        }
+      ]
+    ]
+  }
 }

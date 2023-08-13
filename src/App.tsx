@@ -1,26 +1,48 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { FC, useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import BarComponent from './components/Bar.component'
+import ListContainer from './containers/List.container'
+import * as LocalAuthentication from 'expo-local-authentication'
 
-import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import ListScreen from './screens/List.screen'
-import AuthScreen from './screens/Auth.screen'
+export const App: FC = () => {
+  const [auth, setAuth] = useState(false)
 
-const Stack = createNativeStackNavigator()
+  const signOut = async () => {
+    await AsyncStorage.setItem('auth', '0')
+    setAuth(false)
+  }
 
-function App(): JSX.Element {
+  const signIn = async () => {
+    if (!auth) {
+      const authenticate = async () => {
+        return LocalAuthentication.authenticateAsync()
+      }
+
+      await authenticate().then(async result => {
+        if (result.success) {
+          await AsyncStorage.setItem('auth', '1')
+          setAuth(true)
+        } else {
+          await signOut()
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    const getAuthItem = async () => AsyncStorage.getItem('auth')
+    void getAuthItem().then(result => {
+      setAuth(Boolean(Number(result)))
+    })
+  }, [])
+
+  console.log('App', auth)
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={ListScreen} />
-        <Stack.Screen name="Auth" component={AuthScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      <BarComponent auth={auth} signOut={signOut} signIn={signIn} />
+      <ListContainer auth={auth} />
+    </>
   )
 }
 

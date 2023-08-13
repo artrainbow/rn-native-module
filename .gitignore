@@ -65,3 +65,7 @@ yarn-error.log
 
 #vendor
 /vendor
+# Expo
+.expo
+dist/
+web-build/
