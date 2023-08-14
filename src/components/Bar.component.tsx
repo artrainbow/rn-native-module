@@ -24,7 +24,7 @@ const BarComponent = ({ auth, signOut, signIn }: IBarComponent) => (
         paddingRight: SPACE,
       }}>
       {auth ? (
-        <Pressable onPress={signOut}>
+        <Pressable onPress={() => void signOut()}>
           <Flex direction="row" items="center">
             <Icon
               name="account"
@@ -36,7 +36,7 @@ const BarComponent = ({ auth, signOut, signIn }: IBarComponent) => (
           </Flex>
         </Pressable>
       ) : (
-        <Pressable onPress={signIn}>
+        <Pressable onPress={() => void signIn()}>
           <Flex direction="row" items="center">
             <Text color={THEME.white}>{COPY.bar.sign_in}</Text>
           </Flex>

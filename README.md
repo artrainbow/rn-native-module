@@ -10,6 +10,16 @@ yarn global add npx
 ```
 
 ```
+yarn global add detox-cli
+brew tap wix/brew
+brew install applesimutils
+```
+
+```
+yarn global add eslint
+```
+
+```
 yarn
 ```
 

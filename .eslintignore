@@ -1,0 +1,7 @@
+.eslintrc.js
+babel.config.js
+metro.config.js
+__test__
+*.test.ts*
+*.test.js*
+*.e2e.ts*

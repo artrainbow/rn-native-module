@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    ".eslintrc.js",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.base.js",
+    "jest.config.js",
+    "jest.preset.js"
+  ],
+  "exclude": ["node_modules", "dist", "coverage", "__test__", ".test.ts*"]
+}

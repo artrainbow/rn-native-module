@@ -7,4 +7,7 @@ export default {
     add_item: 'Add item',
     please_sign_in: 'Please sign in.',
   },
+  app: {
+    login_successful: 'Login successful',
+  },
 }

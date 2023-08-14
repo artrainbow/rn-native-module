@@ -23,15 +23,15 @@ const ListContainer = ({ auth }: IListContainer) => {
     setData(prev => (prev ? [...prev, { uuid: uuid.v4() as string }] : null))
   }
 
-  const deleteItem = (uuid: string) => {
-    setData(prev => (prev ? prev.filter(item => item.uuid !== uuid) : null))
+  const deleteItem = (itemUuid: string) => {
+    setData(prev => (prev ? prev.filter(item => item.uuid !== itemUuid) : null))
   }
 
-  const onChangeText = (content: string, uuid: string) => {
+  const onChangeText = (content: string, itemUuid: string) => {
     setData(prev =>
       prev
         ? prev.map(item =>
-            item.uuid === uuid ? { ...item, content: content } : item,
+            item.uuid === itemUuid ? { ...item, content: content } : item,
           )
         : null,
     )
@@ -52,29 +52,29 @@ const ListContainer = ({ auth }: IListContainer) => {
   useEffect(() => {
     void AsyncStorage.getItem('list').then(list => {
       if (list) {
-        setData(JSON.parse(list))
+        setData(JSON.parse(list) as TodoItem[])
       }
     })
   }, [])
 
   return (
-    <>
-      <ScrollView
-        contentContainerStyle={{ margin: SPACE }}
-        keyboardShouldPersistTaps="handled">
-        <Flex justify="end" items="center" direction="row">
-          <SwitcherComponent
-            value={isEnabled}
-            onValueChange={
-              auth
-                ? setEnabled.toggle
-                : () => Alert.alert(COPY.list.please_sign_in)
-            }
-          />
-        </Flex>
-        <Spacer style={{ height: SPACE * 2 }} />
+    <ScrollView
+      contentContainerStyle={{ margin: SPACE }}
+      keyboardShouldPersistTaps="handled">
+      <Flex justify="end" items="center" direction="row">
+        <SwitcherComponent
+          value={isEnabled}
+          onValueChange={
+            auth
+              ? setEnabled.toggle
+              : () => Alert.alert(COPY.list.please_sign_in)
+          }
+        />
+      </Flex>
+      <Spacer style={{ height: SPACE * 2 }} />
+      {data?.length ? (
         <Stack fill spacing={2}>
-          {data?.map(item => (
+          {data.map(item => (
             <ItemComponent
               key={item.uuid}
               item={item}
@@ -84,27 +84,27 @@ const ListContainer = ({ auth }: IListContainer) => {
             />
           ))}
         </Stack>
-        <Spacer style={{ height: SPACE }} />
-        <Stack center spacing={2}>
-          <Button
-            onPress={addItem}
-            color={THEME.primary}
-            title={COPY.list.add_item}
-            uppercase={false}
-            disabled={!isEnabled}
-            titleStyle={{ color: isEnabled ? THEME.white : THEME.secondary }}
-            leading={props => (
-              <Icon
-                name="plus"
-                {...props}
-                color={isEnabled ? THEME.white : THEME.secondary}
-              />
-            )}
-          />
-        </Stack>
-        <Spacer style={{ height: SPACE * 5 }} />
-      </ScrollView>
-    </>
+      ) : null}
+      <Spacer style={{ height: SPACE }} />
+      <Stack center spacing={2}>
+        <Button
+          onPress={addItem}
+          color={THEME.primary}
+          title={COPY.list.add_item}
+          uppercase={false}
+          disabled={!isEnabled}
+          titleStyle={{ color: isEnabled ? THEME.white : THEME.secondary }}
+          leading={props => (
+            <Icon
+              name="plus"
+              {...props}
+              color={isEnabled ? THEME.white : THEME.secondary}
+            />
+          )}
+        />
+      </Stack>
+      <Spacer style={{ height: SPACE * 5 }} />
+    </ScrollView>
   )
 }
 
