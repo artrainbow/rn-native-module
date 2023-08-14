@@ -4,21 +4,6 @@ import { element } from 'detox'
 
 const delay = ms => new Promise(r => setTimeout(r, ms))
 
-async function getMatchesLength(elID) {
-  let index = 0
-
-  try {
-    while (true) {
-      await expect(element(by.id(elID)).atIndex(index)).toExist()
-      index++
-    }
-  } catch (error) {
-    console.log('find ', index, 'matches')
-  }
-
-  return index
-}
-
 describe('App interactions (IOS)', () => {
   beforeAll(async () => {
     await device.launchApp({ permissions: { faceid: 'YES' } })

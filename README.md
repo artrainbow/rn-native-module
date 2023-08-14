@@ -40,3 +40,13 @@ yarn ios
 ```
 yarn android
 ```
+
+# Run tests
+
+```
+yarn test:unit
+```
+
+```
+yarn test:e2e:ios
+```
