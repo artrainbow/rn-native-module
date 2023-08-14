@@ -48,7 +48,6 @@ export const App: FC = () => {
     <RootSiblingParent>
       <BarComponent auth={auth} signOut={signOut} signIn={signIn} />
       <ListContainer auth={auth} />
-      {/*<Toast visible={auth}>Thanks for subscribing!</Toast>*/}
     </RootSiblingParent>
   )
 }
