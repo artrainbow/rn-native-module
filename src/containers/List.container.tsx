@@ -20,7 +20,10 @@ const ListContainer = ({ auth }: IListContainer) => {
   const isEnabled = auth && enabled
 
   const addItem = () => {
-    setData(prev => (prev ? [...prev, { uuid: uuid.v4() as string }] : null))
+    setData(prev => {
+      const itemUuid = uuid.v4() as string
+      return prev ? [...prev, { uuid: itemUuid }] : [{ uuid: itemUuid }]
+    })
   }
 
   const deleteItem = (itemUuid: string) => {
@@ -36,6 +39,10 @@ const ListContainer = ({ auth }: IListContainer) => {
         : null,
     )
   }
+
+  const onValueChange = auth
+    ? setEnabled.toggle
+    : () => Alert.alert(COPY.list.please_sign_in)
 
   /**
    * Persist data to Async storage each time if data is changed
@@ -62,14 +69,7 @@ const ListContainer = ({ auth }: IListContainer) => {
       contentContainerStyle={{ margin: SPACE }}
       keyboardShouldPersistTaps="handled">
       <Flex justify="end" items="center" direction="row">
-        <SwitcherComponent
-          value={isEnabled}
-          onValueChange={
-            auth
-              ? setEnabled.toggle
-              : () => Alert.alert(COPY.list.please_sign_in)
-          }
-        />
+        <SwitcherComponent value={isEnabled} onValueChange={onValueChange} />
       </Flex>
       <Spacer style={{ height: SPACE * 2 }} />
       {data?.length ? (
@@ -88,6 +88,7 @@ const ListContainer = ({ auth }: IListContainer) => {
       <Spacer style={{ height: SPACE }} />
       <Stack center spacing={2}>
         <Button
+          testID="add-item"
           onPress={addItem}
           color={THEME.primary}
           title={COPY.list.add_item}

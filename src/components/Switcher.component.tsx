@@ -9,6 +9,7 @@ interface ISwitcherComponent {
 
 const SwitcherComponent = ({ value, onValueChange }: ISwitcherComponent) => (
   <Switch
+    testID="switcher"
     trackColor={{ false: THEME.secondary, true: THEME.primary }}
     value={value}
     onValueChange={onValueChange}

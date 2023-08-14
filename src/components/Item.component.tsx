@@ -24,6 +24,7 @@ const ItemComponent = ({
 }: IItemComponent) => (
   <Flex fill justify="between" items="center" direction="row">
     <TextInput
+      testID="input"
       value={item.content}
       style={{ flex: 1 }}
       variant="standard"
@@ -32,6 +33,7 @@ const ItemComponent = ({
       onChangeText={value => onChangeText(value, item.uuid)}
     />
     <IconButton
+      testID="delete-button"
       onPress={() => deleteItem(item.uuid)}
       color={editable ? THEME.primary : THEME.secondary}
       disabled={!editable}
